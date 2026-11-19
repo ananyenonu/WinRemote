@@ -1,69 +1,215 @@
+<div align="center">
+
+<img src="web/icons/icon-192.png" width="100" alt="WinRemote icon" />
+
 # WinRemote
 
-A local-network remote control for a Windows 10/11 laptop. The phone connects in its browser over Wi-Fi, Ethernet, or a supported Bluetooth PAN link.
+### Windows, within reach.
 
-## Install and start
+**Turn your phone into a wireless touchpad, keyboard, media controller, and more for your Windows PC.**
 
-This release adds an installable Android Progressive Web App (PWA) and HTTPS. It replaces the previous plain-HTTP URL, so update your phone bookmark to the new `https://` address shown by the connection-details window.
+A lightweight, open-source remote control that works in your phone's browser over your **local network**. No separate mobile app or cloud account required.
 
-1. Extract the entire `WinRemote` folder to a permanent location, such as `Documents\WinRemote`. Do not move or delete it after installing shortcuts.
-2. Double-click **Install WinRemote.bat** once. This installs dependencies, creates a `WinRemote` shortcut on the Desktop, adds a quiet logon startup shortcut, and starts the server in the background.
-3. A connection-details window shows the HTTPS phone URL, pairing code, and path to the local CA certificate. Before opening the URL on Android, copy the `.cer` file to the phone and install it as a CA certificate in Android Settings (search Settings for “Install a certificate”). Then open the HTTPS URL in Chrome and pair with the six-digit code. Chrome should then offer **Install app** in its three-dot menu. The installed app opens in standalone mode with the WinRemote icon. If Chrome still shows a certificate warning, do not bypass it; verify that the correct WinRemote CA certificate was installed and that the URL IP matches the current laptop IP.
-4. Bookmark that URL on your phone. In the pairing page, leave **Remember this phone** checked only on your own phone. The browser reconnects automatically while the server's current session remains valid.
+[![Latest Release](https://img.shields.io/github/v/release/ananyenonu/WinRemote?label=release)](https://github.com/ananyenonu/WinRemote/releases/latest)
+[![License: MIT](https://img.shields.io/github/license/ananyenonu/WinRemote)](LICENSE)
+[![Platform: Windows](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0078D4)](#requirements)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB)](#requirements)
+[![Issues](https://img.shields.io/github/issues/ananyenonu/WinRemote)](https://github.com/ananyenonu/WinRemote/issues)
 
-## Everyday use
+[**Download**](https://github.com/ananyenonu/WinRemote/releases/latest) · [**Get started**](#quick-start) · [**Features**](#features) · [**Security**](#security) · [**Contribute**](CONTRIBUTING.md)
 
-- Double-click the Desktop **WinRemote** shortcut to start it or show the current URL and pairing code. It runs without a terminal window.
-- WinRemote also starts quietly when you sign in to Windows.
-- In the Start Menu, open **WinRemote > Show connection details** to retrieve the current URL and pairing code.
-- Use **WinRemote > Stop WinRemote** to stop the background server. You can also run `Stop WinRemote.bat` from the app folder.
-- The server runs only after your Windows user signs in. It is not a Windows service and does not run at the Windows lock/sign-in screen.
+</div>
 
-## Bookmarking the URL
+---
 
-Yes. Bookmark the Wi-Fi URL shown in the connection-details window, for example `https://192.168.1.25:8765`. It will keep working as long as the laptop keeps the same local IP address and WinRemote is running. For a stable bookmark, create a DHCP reservation for the laptop in your router's LAN/DHCP settings. If your router assigns a different IP, open **Show connection details** and update the bookmark.
+## See it in action
 
-The pairing code is needed for the first pairing. If **Remember this phone** is enabled, the browser stores its session token and WinRemote stores only a hash of that token in your Windows user profile. The phone reconnects automatically across browser tabs and Windows restarts. Use **Disconnect** in the app to revoke that remembered phone. If you lose the phone or clear its browser storage before disconnecting, stop WinRemote and delete `%LOCALAPPDATA%\WinRemote\trusted_devices.json` to revoke all remembered phones, then start WinRemote again. If you uncheck the option, the session lasts only for the current browser tab and current server process.
+<div align="center">
 
-## Requirements
+<table>
+  <tr>
+    <td align="center"><img src="assets/screenshots/touchpad.jpg" width="290" alt="WinRemote touchpad interface on Android"/><br/><b>Touchpad</b></td>
+    <td align="center"><img src="assets/screenshots/keyboard.jpg" width="290" alt="WinRemote keyboard and shortcut controls"/><br/><b>Keyboard</b></td>
+    <td align="center"><img src="assets/screenshots/media.jpg" width="290" alt="WinRemote media playback and volume controls"/><br/><b>Media</b></td>
+  </tr>
+</table>
 
-- Windows 10 or Windows 11
-- Python 3.10 or newer
-- Phone and laptop on the same trusted Wi-Fi network, or a supported Bluetooth PAN link
+<table>
+  <tr>
+    <td align="center"><img src="assets/screenshots/system.jpg" width="250" alt="WinRemote brightness and lock controls"/><br/><b>System</b></td>
+    <td align="center"><img src="assets/screenshots/pairing.jpg" width="250" alt="WinRemote six-digit device pairing screen"/><br/><b>Pairing</b></td>
+  </tr>
+</table>
 
-## Touchpad and desktop controls
+*The actual WinRemote mobile interface. Appearance may differ slightly across devices.*
 
-- **One finger:** move the Windows pointer; tap to left-click.
-- **Two fingers:** scroll vertically or horizontally in browsers that expose multi-touch Pointer Events.
-- **Previous desktop / Next desktop:** use the dedicated buttons below the touchpad. They send the native Windows shortcuts `Win` + `Ctrl` + `Left` and `Win` + `Ctrl` + `Right`.
-- Three-finger desktop switching is intentionally disabled. Use the explicit desktop buttons for reliable switching.
+</div>
 
-## Bluetooth
+## Features
 
-Bluetooth PAN is network-over-Bluetooth, not direct Bluetooth HID. Android support depends on phone and Windows adapter behavior. Wi-Fi is recommended for best reliability. The browser app cannot turn itself into a generic Bluetooth mouse/keyboard device.
+| | Feature | What it does |
+|---|---|---|
+| 🖱️ | **Precision touchpad** | Move the pointer, tap to click, use left/right-click buttons, and scroll. |
+| ⌨️ | **Remote keyboard** | Send text, use quick keys, arrows, and common Windows shortcuts. |
+| 🎵 | **Media controls** | Play/pause, skip tracks, mute, and change system volume. |
+| ☀️ | **Display brightness** | Adjust brightness when the Windows display exposes supported controls. |
+| 🖥️ | **Desktop shortcuts** | Switch virtual desktops using dedicated controls. |
+| 🔒 | **Lock Windows** | Lock your active Windows session remotely. |
+| 📱 | **Installable PWA** | Add WinRemote to your Android home screen from a compatible browser. |
+| 🔐 | **Device pairing** | Six-digit pairing, session authentication, and optional remembered devices. |
+| 🏠 | **Local-first** | Connect over a trusted Wi-Fi/Ethernet network; supported Bluetooth PAN setups may also work. |
+| 🚀 | **Background startup** | Windows shortcuts make it easy to start, stop, and inspect the server. |
 
-## Security and Windows sign-in
+> [!NOTE]
+> WinRemote is a **local input controller**, not a screen-sharing or full remote-desktop application. It cannot unlock the Windows sign-in screen.
 
-- The app accepts private/local-network clients only, requires a six-digit pairing code, applies failed-attempt throttling, and uses a temporary session token.
-- The connection-details file containing the pairing code is stored in the current Windows user's `%LOCALAPPDATA%\WinRemote` folder. It is not exposed through a web endpoint.
-- Use only on a trusted private network. Do not port-forward port `8765`, expose it to the internet, or share the pairing code.
-- **Lock** locks the Windows session. WinRemote cannot enter your Windows PIN on the sign-in screen. Windows protects credential interfaces against remote/automated keystroke injection. Unlock locally, or use a separately configured supported remote-desktop solution. Do not send your Windows PIN through this web app.
-- WinRemote now serves the app over HTTPS using a private local certificate authority. Install `%LOCALAPPDATA%\WinRemote\WinRemote-Root-CA.cer` on your Android phone as a CA certificate before using the HTTPS URL. The CA private key stays on the laptop. Treat this CA certificate as a trust credential: install only the certificate generated by your own WinRemote instance, and never share the matching private key. If you reset the CA files, install the new CA certificate on the phone. The app must run in your signed-in desktop session. It cannot start before sign-in or control the Windows lock screen.
-- Brightness control uses the built-in Windows WMI monitor-brightness interface first, then tries supported monitor backends. Windows must expose a compatible brightness controller. Run **Diagnose Brightness.bat** if the slider says Unavailable; it creates `WinRemote-brightness-diagnostic.txt` on your Desktop.
-- Some elevated applications may ignore simulated input unless WinRemote runs at matching privilege. Do not run as Administrator unless strictly necessary.
+## Quick start
+
+### Requirements
+
+- **PC:** Windows 10 or Windows 11
+- **Python:** 3.10 or newer, available to the installer
+- **Phone:** Android with a compatible browser (Chrome recommended for PWA installation)
+- **Network:** Phone and PC on the same trusted local network. Wi-Fi is recommended.
+
+### 1. Download and install on Windows
+
+1. Go to the [latest release](https://github.com/ananyenonu/WinRemote/releases/latest) and download **Source code (zip)**.
+2. Extract the **entire** folder to a permanent location, such as `Documents\WinRemote`. Avoid moving the folder after setup.
+3. Double-click **`Install WinRemote.bat`**. This installs Python dependencies, creates shortcuts, configures background startup at Windows sign-in, and launches WinRemote.
+4. Open **WinRemote connection details** on the PC to see the HTTPS address, pairing code, and certificate location.
+
+> [!IMPORTANT]
+> The ZIP is a **source distribution**. There is not yet a standalone `.exe` installer; Python is required.
+
+### 2. Trust your own local certificate on Android
+
+WinRemote serves the interface over HTTPS using a certificate generated locally on **your own PC**. Before first use:
+
+1. On Windows, find the `WinRemote-Root-CA.cer` file shown in the connection-details window (normally under `%LOCALAPPDATA%\WinRemote`).
+2. Transfer **only the `.cer` public certificate** to your phone. **Never transfer or share the CA private key.**
+3. On Android, open **Settings**, search for **Install a certificate**, and install it as a **CA certificate**. Exact menu names vary by Android version and manufacturer.
+4. Open the HTTPS address shown by WinRemote in Chrome. If you still see a certificate warning, **do not bypass it**; recheck the certificate and address.
+
+> [!WARNING]
+> Installing a CA certificate changes what your phone trusts. Install **only the CA certificate generated by your own WinRemote installation**, never one supplied by a stranger. Remove it when you no longer use WinRemote.
+
+### 3. Pair your phone
+
+1. Open the PC's WinRemote HTTPS URL on your phone.
+2. Enter the **six-digit pairing code** shown on the Windows connection-details screen.
+3. Select **Connect to laptop**.
+4. Optionally enable **Remember this phone** only on a device you personally control.
+5. In Chrome, use **Install app** from the menu to add WinRemote to your home screen.
+
+<div align="center">
+<img src="assets/screenshots/connection-details.jpg" width="620" alt="WinRemote connection details dialog on Windows with addresses and code redacted"/>
+
+*The Windows connection-details window. Network addresses and pairing code are redacted in this example.*
+</div>
+
+## Using WinRemote
+
+| Control | Gesture / action |
+|---|---|
+| Move cursor | Drag one finger across the touchpad |
+| Left click | Tap touchpad or use **Left click** |
+| Right click | Use **Right click** |
+| Scroll | Two-finger gesture where supported, or **Scroll up/down** buttons |
+| Send text | Open **Keyboard**, enter text, select **Send text** |
+| Shortcuts | Use quick keys such as `Ctrl+C`, `Ctrl+V`, `Alt+Tab`, or `Win+D` |
+| Media | Use the **Media** tab for playback and volume |
+| Brightness / lock | Open the **System** tab |
+| Virtual desktops | Use the provided previous/next desktop controls |
+
+### How it works
+
+```mermaid
+flowchart LR
+    A["📱 Phone browser / PWA"] <-->|"HTTPS + authenticated WebSocket"| B["🏠 Trusted local network"]
+    B <--> C["💻 WinRemote Python server"]
+    C --> D["Windows mouse, keyboard, media & system controls"]
+```
+
+**Technology:** Python, `aiohttp`, WebSockets, HTML, CSS, JavaScript, Windows APIs, and Progressive Web App features.
+
+## Security
+
+WinRemote can send mouse and keyboard input to your signed-in Windows desktop. **Only run it on a network and devices you trust.**
+
+- Uses HTTPS with a locally generated CA and a six-digit pairing flow.
+- Supports authenticated sessions and optional remembered devices.
+- Applies throttling to pairing attempts.
+- **Never** port-forward the WinRemote port (default `8765`) or expose it to the public internet.
+- Keep pairing codes, session tokens, private keys, and runtime data private.
+- **Lock Windows** works, but WinRemote **cannot enter your Windows PIN on the sign-in screen**.
+- Do not run WinRemote as Administrator unless strictly necessary.
+- If a remembered phone is lost, revoke remembered-device access by removing `%LOCALAPPDATA%\WinRemote\trusted_devices.json` while WinRemote is stopped, then restart the server.
+
+See [SECURITY.md](SECURITY.md) for vulnerability reporting and deployment guidance.
 
 ## Troubleshooting
 
-- If the shortcut does not start the server, inspect `%LOCALAPPDATA%\WinRemote\launcher-error.log` and `server.log`.
-- If the phone cannot connect, confirm both devices are on the same Wi-Fi, disable guest-network/client isolation, and allow Python through Windows Defender Firewall on **Private networks only** for TCP port `8765`. Do not expose or port-forward this port to the internet.
-- If the bookmark stops working, check whether the laptop's local IP changed. Create a router DHCP reservation if needed.
-- If a stale browser session appears after restarting WinRemote, reopen the bookmarked URL and pair using the new code from **Show connection details**.
+<details>
+<summary><b>My phone cannot connect</b></summary>
 
+Check that WinRemote is running, both devices are on the same trusted local network, and the displayed IP address is current. Some guest Wi-Fi networks block communication between devices. If Windows Firewall blocks the server, permit the relevant Python process on **Private networks only**, not Public.
+</details>
 
-## Brightness troubleshooting
+<details>
+<summary><b>Chrome shows an HTTPS / certificate warning</b></summary>
 
-- After updating this version, run **Install WinRemote.bat** again so the WMI dependencies are installed into the WinRemote virtual environment.
-- Stop and restart WinRemote after installation.
-- If brightness is still unavailable, run **Diagnose Brightness.bat** and inspect `WinRemote-brightness-diagnostic.txt` on your Desktop. The report does not change brightness settings.
-- If Windows Settings > System > Display also has no brightness slider, install/update the HP display, chipset, and graphics drivers. External monitors may require DDC/CI support to be enabled in the monitor menu.
+Check that you installed the `.cer` generated by **this Windows installation** and that the connection URL matches the current PC address. Do not bypass certificate warnings.
+</details>
 
+<details>
+<summary><b>The bookmarked URL stopped working</b></summary>
+
+Your PC may have received a different IP address from your router. Open **Show connection details** again, or configure a DHCP reservation on your router for a stable address.
+</details>
+
+<details>
+<summary><b>Brightness is unavailable</b></summary>
+
+Brightness requires Windows to expose a supported monitor control. Try **Diagnose Brightness.bat**. External monitors may require DDC/CI support, if available. After upgrading, rerun **Install WinRemote.bat** to refresh dependencies.
+</details>
+
+<details>
+<summary><b>WinRemote doesn't start</b></summary>
+
+Check `%LOCALAPPDATA%\WinRemote\launcher-error.log` and `server.log`. You can use the included start/stop shortcuts to restart the server.
+</details>
+
+<details>
+<summary><b>Can I use Bluetooth?</b></summary>
+
+Some Windows/Android setups support **Bluetooth PAN**, which provides a local network connection over Bluetooth. WinRemote is **not** a direct Bluetooth HID keyboard or mouse. Wi-Fi is more broadly supported.
+</details>
+
+## Roadmap
+
+Ideas for future development (not promises or currently supported features):
+
+- [ ] Simplified Windows installer that does not require a separate Python setup
+- [ ] More approachable certificate onboarding
+- [ ] Automated tests and CI
+- [ ] Additional device compatibility testing
+- [ ] Expanded customization and accessibility options
+
+Have an idea? [Open an issue](https://github.com/ananyenonu/WinRemote/issues).
+
+## Contributing
+
+Contributions, bug reports, and documentation improvements are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting changes. For security issues, follow [SECURITY.md](SECURITY.md) instead of posting exploit details publicly.
+
+## License
+
+Distributed under the [MIT License](LICENSE).
+
+<div align="center">
+
+**Made for a simpler way to control Windows.**
+
+[⭐ Star the repository](https://github.com/ananyenonu/WinRemote) · [Report a bug](https://github.com/ananyenonu/WinRemote/issues/new) · [View releases](https://github.com/ananyenonu/WinRemote/releases)
+
+</div>
