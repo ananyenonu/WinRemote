@@ -1,0 +1,5 @@
+aiohttp>=3.10,<4
+screen-brightness-control>=0.27.2,<0.28
+wmi>=1.5.1
+psutil>=6.0
+cryptography>=42.0
